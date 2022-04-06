@@ -47,5 +47,5 @@ add_dependencies(luajit luajit_target)
 
 set_target_properties(luajit
     PROPERTIES
-    IMPORTED_LOCATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua51.dll
+    IMPORTED_LOCATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua51.lib
     INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_LIST_DIR}/src)
