@@ -138,10 +138,10 @@ ExternalProject_Add(project_luajit
 #	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
 #)
 
-add_custom_target(luajit_target ALL
-    DEPENDS ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/luajit.lib ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua51.lib ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua51.dll
-)
-add_dependencies(luajit_target project_luajit)
+#add_custom_target(luajit_target ALL
+#    DEPENDS ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/luajit.lib ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua51.lib ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua51.dll
+#)
+#add_dependencies(luajit_target project_luajit)
 
 #add_library(lua51 STATIC IMPORTED)
 #set_property(TARGET lua51 PROPERTY IMPORTED_LOCATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua51.lib)
