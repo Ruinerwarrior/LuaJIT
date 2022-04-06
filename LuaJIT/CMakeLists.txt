@@ -21,25 +21,29 @@ add_custom_target(luajit_target
 	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
 )
 
-add_custom_command(TARGET luajit_target POST_BUILD
+add_custom_command(TARGET luajit_target
+    DEPENDS ${CMAKE_CURRENT_LIST_DIR}/src/luajit.exe
     COMMAND ${POWERSHELL_PATH} Copy-Item -Path "luajit.exe" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
     COMMENT "copy .exe"
 )
 
-add_custom_command(TARGET luajit_target POST_BUILD
+add_custom_command(TARGET luajit_target
+    DEPENDS ${CMAKE_CURRENT_LIST_DIR}/src/luajit.lib
     COMMAND ${POWERSHELL_PATH} Copy-Item -Path "luajit.lib" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
     COMMENT "copy .exe"
 )
 
-add_custom_command(TARGET luajit_target POST_BUILD
+add_custom_command(TARGET luajit_target
+    DEPENDS ${CMAKE_CURRENT_LIST_DIR}/src/lua51.lib
     COMMAND ${POWERSHELL_PATH} Copy-Item -Path "lua51.lib" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
     COMMENT "copy .exe"
 )
 
-add_custom_command(TARGET luajit_target POST_BUILD
+add_custom_command(TARGET luajit_target
+    DEPENDS ${CMAKE_CURRENT_LIST_DIR}/src/lua51.dll
     COMMAND ${POWERSHELL_PATH} Copy-Item -Path "lua51.dll" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
     COMMENT "copy .exe"
