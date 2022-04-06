@@ -75,7 +75,12 @@ ExternalProject_Add(project_luajit
   BUILD_COMMAND .\\msvcbuild.bat
 )
 
-add_library(luajit SHARED IMPORTED)
-set_property(TARGET luajit PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/src/lua51.dll)
+add_library(lua51 SHARED IMPORTED)
+set_property(TARGET lua51 PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/src/lua51.dll)
+add_dependencies(lua51 project_luajit)
+target_include_directories(lua51 INTERFACE ${CMAKE_CURRENT_LIST_DIR}/src)
+
+add_library(luajit STATIC IMPORTED)
+set_property(TARGET luajit PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/src/luajit.lib)
 add_dependencies(luajit project_luajit)
 target_include_directories(luajit INTERFACE ${CMAKE_CURRENT_LIST_DIR}/src)
