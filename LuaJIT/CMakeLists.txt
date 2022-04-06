@@ -122,7 +122,7 @@ add_custom_target(luajit_dep1
 
 add_custom_target(lua51_dep 
 	ALL
-	COMMAND ${POWERSHELL_PATH} Copy-Item -Path "lua51.dll" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
+	COMMAND ${POWERSHELL_PATH} Copy-Item -Path "lua51.dll" -Destination ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} -Force
 	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
 )
 
@@ -133,11 +133,11 @@ add_custom_target(lua51_dep1
 )
 
 add_library(lua51 SHARED IMPORTED)
-set_property(TARGET lua51 PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/src/lua51.dll)
+set_property(TARGET lua51 PROPERTY IMPORTED_LOCATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/lua51.dll)
 add_dependencies(lua51 project_luajit lua_dep lua51_dep lua51_dep1)
 target_include_directories(lua51 INTERFACE ${CMAKE_CURRENT_LIST_DIR}/src)
 
 add_library(luajit STATIC IMPORTED)
-set_property(TARGET luajit PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/src/luajit.lib)
+set_property(TARGET luajit PROPERTY IMPORTED_LOCATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/luajit.lib)
 add_dependencies(luajit project_luajit luajit_dep luajit_dep1)
 target_include_directories(luajit INTERFACE ${CMAKE_CURRENT_LIST_DIR}/src)
