@@ -30,6 +30,12 @@ add_custom_command(TARGET luajit_target POST_BUILD
 )
 
 add_custom_command(TARGET luajit_target POST_BUILD
+    COMMAND ${POWERSHELL_PATH} Copy-Item -Path "lua51.lib" -Destination ${LUA_BUILD_DIR} -Force
+    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
+    COMMENT "copy .exe"
+)
+
+add_custom_command(TARGET luajit_target POST_BUILD
     COMMAND ${POWERSHELL_PATH} Copy-Item -Path "lua51.dll" -Destination ${LUA_BUILD_DIR} -Force
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
     COMMENT "copy .exe"
