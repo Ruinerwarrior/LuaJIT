@@ -141,13 +141,14 @@ add_custom_command(#TARGET project_luajit
 add_custom_target(luajit_target ALL
     DEPENDS ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/luajit.lib ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua51.lib ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua51.dll
 )
+add_dependencies(luajit_target project_luajit)
 
 add_library(lua51 STATIC IMPORTED)
 set_property(TARGET lua51 PROPERTY IMPORTED_LOCATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua51.lib)
-add_dependencies(lua51 project_luajit luajit_target)
+add_dependencies(lua51 luajit_target)
 target_include_directories(lua51 INTERFACE ${CMAKE_CURRENT_LIST_DIR}/src)
 
 add_library(luajit STATIC IMPORTED)
 set_property(TARGET luajit PROPERTY IMPORTED_LOCATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/luajit.lib)
-add_dependencies(luajit project_luajit luajit_target)
+add_dependencies(luajit luajit_target)
 target_include_directories(luajit INTERFACE ${CMAKE_CURRENT_LIST_DIR}/src)
