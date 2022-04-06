@@ -36,7 +36,7 @@ add_custom_command(TARGET luajit_target POST_BUILD
 )
 endif()
 
-add_library(luajit SHARED IMPORTED GLOBAL)
+add_library(luajit SHARED IMPORTED)
 add_dependencies(luajit luajit_target)
 
 set_target_properties(luajit
