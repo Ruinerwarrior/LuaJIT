@@ -110,7 +110,7 @@ add_custom_target(lua_dep
 
 add_custom_target(luajit_dep
 	ALL
-	COMMAND ${POWERSHELL_PATH} Copy-Item -Path "luajit.lib" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
+	COMMAND ${POWERSHELL_PATH} Copy-Item -Path "luajit.lib" -Destination ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} -Force
 	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
 )
 
@@ -128,7 +128,7 @@ add_custom_target(lua51_dep
 
 add_custom_target(lua51_dep1
 	ALL
-	COMMAND ${POWERSHELL_PATH} Copy-Item -Path "lua51.lib" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
+	COMMAND ${POWERSHELL_PATH} Copy-Item -Path "lua51.lib" -Destination ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} -Force
 	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
 )
 
