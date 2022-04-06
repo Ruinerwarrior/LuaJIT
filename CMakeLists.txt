@@ -38,3 +38,8 @@ endif()
 
 add_library(luajit STATIC IMPORTED GLOBAL)
 add_dependencies(luajit luajit_target)
+
+set_target_properties(luajit
+    PROPERTIES
+    IMPORTED_LOCATION ${LUA_BUILD_DIR}/lua51.dll
+    INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_LIST_DIR}/src)
