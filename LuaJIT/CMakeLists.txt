@@ -150,5 +150,5 @@ ExternalProject_Add(project_luajit
 
 add_library(luajit STATIC IMPORTED)
 set_property(TARGET luajit PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/luajit.lib)
-add_dependencies(luajit luajit_target)
+add_dependencies(luajit project_luajit)
 target_include_directories(luajit INTERFACE ${CMAKE_CURRENT_LIST_DIR}/src)
