@@ -9,6 +9,9 @@ else()
 set(LUA_BUILD_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 endif()
 
+message(STATUS "test-${LUA_BUILD_DIR}")
+message(STATUS "test1-${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+
 if(WIN32)
 find_program(POWERSHELL_PATH NAMES powershell)
 
