@@ -71,31 +71,31 @@ ExternalProject_Add(project_luajit
   BUILD_COMMAND .\\msvcbuild.bat
 )
 
-add_custom_command(TARGET project_luajit POST_BUILD
+add_custom_command(TARGET project_luajit PRE_BUILD
     COMMAND ${POWERSHELL_PATH} Copy-Item -Path "luajit.exe" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
     COMMENT "copy .exe"
 )
 
-add_custom_command(TARGET project_luajit POST_BUILD
+add_custom_command(TARGET project_luajit PRE_BUILD
     COMMAND ${POWERSHELL_PATH} Copy-Item -Path "luajit.lib" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
     COMMENT "copy .exe"
 )
 
-add_custom_command(TARGET project_luajit POST_BUILD
+add_custom_command(TARGET project_luajit PRE_BUILD
     COMMAND ${POWERSHELL_PATH} Copy-Item -Path "lua51.lib" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
     COMMENT "copy .exe"
 )
 
-add_custom_command(TARGET project_luajit POST_BUILD
+add_custom_command(TARGET project_luajit PRE_BUILD
     COMMAND ${POWERSHELL_PATH} Copy-Item -Path "lua51.dll" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
     COMMENT "copy .exe"
 )
 
-add_custom_command(TARGET project_luajit POST_BUILD
+add_custom_command(TARGET project_luajit PRE_BUILD
     COMMAND ${POWERSHELL_PATH} Copy-Item -Path "jit\*" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua -Recurse -Force
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
     COMMENT "copy .exe"
