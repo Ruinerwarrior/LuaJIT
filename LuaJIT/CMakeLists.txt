@@ -71,31 +71,31 @@ ExternalProject_Add(project_luajit
   BUILD_COMMAND .\\msvcbuild.bat
 )
 
-add_custom_command(TARGET project_luajit PRE_BUILD
+add_custom_command(TARGET project_luajit PRE_LINK
     COMMAND ${POWERSHELL_PATH} Copy-Item -Path "luajit.exe" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
     COMMENT "copy .exe"
 )
 
-add_custom_command(TARGET project_luajit PRE_BUILD
+add_custom_command(TARGET project_luajit PRE_LINK
     COMMAND ${POWERSHELL_PATH} Copy-Item -Path "luajit.lib" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
     COMMENT "copy .exe"
 )
 
-add_custom_command(TARGET project_luajit PRE_BUILD
+add_custom_command(TARGET project_luajit PRE_LINK
     COMMAND ${POWERSHELL_PATH} Copy-Item -Path "lua51.lib" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
     COMMENT "copy .exe"
 )
 
-add_custom_command(TARGET project_luajit PRE_BUILD
+add_custom_command(TARGET project_luajit PRE_LINK
     COMMAND ${POWERSHELL_PATH} Copy-Item -Path "lua51.dll" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
     COMMENT "copy .exe"
 )
 
-add_custom_command(TARGET project_luajit PRE_BUILD
+add_custom_command(TARGET project_luajit PRE_LINK
     COMMAND ${POWERSHELL_PATH} Copy-Item -Path "jit\*" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua -Recurse -Force
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
     COMMENT "copy .exe"
@@ -108,5 +108,5 @@ target_include_directories(lua51 INTERFACE ${CMAKE_CURRENT_LIST_DIR}/src)
 
 add_library(luajit STATIC IMPORTED)
 set_property(TARGET luajit PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/src/luajit.lib)
-add_dependencies(luajit project_luajit)
+add_dependencies(luajit lua51)
 target_include_directories(luajit INTERFACE ${CMAKE_CURRENT_LIST_DIR}/src)
