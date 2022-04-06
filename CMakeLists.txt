@@ -5,7 +5,7 @@ project ("LuaJIT")
 if(WIN32)
 find_program(POWERSHELL_PATH NAMES powershell)
 
-add_custom_target(luajit
+add_custom_target(luajit_target
 	ALL
 	COMMAND ${POWERSHELL_PATH} .\\msvcbuild.bat
 	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
@@ -17,21 +17,24 @@ if(${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 set(LUA_BUILD_DIR ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 endif()
 
-add_custom_command(TARGET luajit POST_BUILD
-    COMMAND ${POWERSHELL_PATH} Copy-Item -Path "luajit.exe" -Destination ${LUA_BUILD_DIR}
+add_custom_command(TARGET luajit_target POST_BUILD
+    COMMAND ${POWERSHELL_PATH} Copy-Item -Path "luajit.exe" -Destination ${LUA_BUILD_DIR} -Force
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
     COMMENT "copy .exe"
 )
 
-add_custom_command(TARGET luajit POST_BUILD
-    COMMAND ${POWERSHELL_PATH} Copy-Item -Path "lua51.dll" -Destination ${LUA_BUILD_DIR}
+add_custom_command(TARGET luajit_target POST_BUILD
+    COMMAND ${POWERSHELL_PATH} Copy-Item -Path "lua51.dll" -Destination ${LUA_BUILD_DIR} -Force
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
     COMMENT "copy .exe"
 )
 
-add_custom_command(TARGET luajit POST_BUILD
-    COMMAND ${POWERSHELL_PATH} Copy-Item -Path "jit\*" -Destination ${LUA_BUILD_DIR}/lua/jit -Recurse
+add_custom_command(TARGET luajit_target POST_BUILD
+    COMMAND ${POWERSHELL_PATH} Copy-Item -Path "jit\*" -Destination ${LUA_BUILD_DIR}/lua/jit -Recurse -Force
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
     COMMENT "copy .exe"
 )
 endif()
+
+add_library(luajit STATIC IMPORTED GLOBAL)
+add_dependencies(luajit luajit_target)
