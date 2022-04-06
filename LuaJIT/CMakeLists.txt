@@ -57,5 +57,5 @@ add_dependencies(luajit luajit_target)
 
 set_target_properties(luajit
     PROPERTIES
-    IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/src/lua51.lib
+    IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/src/lua51.dll
     INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_LIST_DIR}/src)
