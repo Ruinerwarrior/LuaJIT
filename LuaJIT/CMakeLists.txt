@@ -2,153 +2,50 @@
 # project specific logic here.
 #
 #cmake_minimum_required (VERSION 3.20.1)
-#
-#if(NOT DEFINED ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-#set(LUA_BUILD_DIR ${CMAKE_BINARY_DIR})
-#else()
-#set(LUA_BUILD_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-#endif()
-#
-#message(STATUS "test-${LUA_BUILD_DIR}")
-#message(STATUS "test1-${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
-#
-#if(WIN32)
-#find_program(POWERSHELL_PATH NAMES powershell)
-#
-#add_custom_target(luajit_target
-#	ALL
-#	COMMAND ${POWERSHELL_PATH} .\\msvcbuild.bat
-#	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
-#)
-#
-#add_custom_command(TARGET luajit_target POST_BUILD
-#    COMMAND ${POWERSHELL_PATH} Copy-Item -Path "luajit.exe" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
-#    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
-#    COMMENT "copy .exe"
-#)
-#
-#add_custom_command(TARGET luajit_target POST_BUILD
-#    COMMAND ${POWERSHELL_PATH} Copy-Item -Path "luajit.lib" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
-#    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
-#    COMMENT "copy .exe"
-#)
-#
-#add_custom_command(TARGET luajit_target POST_BUILD
-#    COMMAND ${POWERSHELL_PATH} Copy-Item -Path "lua51.lib" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
-#    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
-#    COMMENT "copy .exe"
-#)
-#
-#add_custom_command(TARGET luajit_target POST_BUILD
-#    COMMAND ${POWERSHELL_PATH} Copy-Item -Path "lua51.dll" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
-#    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
-#    COMMENT "copy .exe"
-#)
-#
-#add_custom_command(TARGET luajit_target POST_BUILD
-#    COMMAND ${POWERSHELL_PATH} Copy-Item -Path "jit\*" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua -Recurse -Force
-#    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
-#    COMMENT "copy .exe"
-#)
-#endif()
-#
-#add_library(luajit SHARED IMPORTED)
-#add_dependencies(luajit luajit_target)
-#
-#set_target_properties(luajit
-#    PROPERTIES
-#    OUTPUT_NAME lua51
-#    IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/src/lua51.dll
-#    INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_LIST_DIR}/src)
 
-include(ExternalProject)
+function(add_external_library)
+    set(options)
+    set(oneValueArgs TARGET WORKING_DIRECTORY OUTPUT_DIRECTORY COMMENT)
+    set(multiValueArgs COMMAND INCLUDE_DIRS)
+    cmake_parse_arguments(ARGS "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-ExternalProject_Add(project_luajit
-  SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/src
-  CONFIGURE_COMMAND ""
-  INSTALL_COMMAND ""
-  BUILD_IN_SOURCE 1
-  BUILD_COMMAND .\\msvcbuild.bat
-)
+    if(NOT DEFINED CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+        set(OUT ${CMAKE_BINARY_DIR})
+    else()
+        set(OUT ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+    endif()
 
-#find_program(POWERSHELL_PATH NAMES powershell)
-#
-#add_custom_command(#TARGET project_luajit
-#    OUTPUT ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/luajit.exe
-#    COMMAND ${POWERSHELL_PATH} Copy-Item -Path "luajit.exe" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
-#    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
-#    COMMENT "copy .exe"
-#)
-#
-#add_custom_command(#TARGET project_luajit
-#    OUTPUT ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/luajit.lib
-#    COMMAND ${POWERSHELL_PATH} Copy-Item -Path "luajit.lib" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
-#    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
-#    COMMENT "copy .exe"
-#)
-#
-#add_custom_command(#TARGET project_luajit
-#    OUTPUT ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua51.lib
-#    COMMAND ${POWERSHELL_PATH} Copy-Item -Path "lua51.lib" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
-#    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
-#    COMMENT "copy .exe"
-#)
-#
-#add_custom_command(#TARGET project_luajit
-#    OUTPUT ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua51.dll
-#    COMMAND ${POWERSHELL_PATH} Copy-Item -Path "lua51.dll" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
-#    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
-#    COMMENT "copy .exe"
-#)
-#
-#add_custom_command(#TARGET project_luajit
-#    OUTPUT ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua/jit
-#    COMMAND ${POWERSHELL_PATH} Copy-Item -Path "jit\*" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua -Recurse -Force
-#    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
-#    COMMENT "copy .exe"
-#)
+    # Specify how to build the result of the library
+    add_custom_command(
+        OUTPUT "${ARGS_OUTPUT_DIRECTORY}/${ARGS_TARGET}.dll"
+        COMMAND ${ARGS_COMMAND}
+        WORKING_DIRECTORY "${ARGS_WORKING_DIRECTORY}"
+        COMMENT "${ARGS_COMMENT}")
 
-#add_custom_target(lua_dep
-#	ALL
-#	COMMAND ${POWERSHELL_PATH} Copy-Item -Path "jit\*" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua -Recurse -Force
-#	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
-#)
-#
-#add_custom_target(luajit_dep
-#	ALL
-#	COMMAND ${POWERSHELL_PATH} Copy-Item -Path "luajit.lib" -Destination ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} -Force
-#	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
-#)
-#
-#add_custom_target(luajit_dep1
-#	ALL
-#	COMMAND ${POWERSHELL_PATH} Copy-Item -Path "luajit.exe" -Destination ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} -Force
-#	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
-#)
-#
-#add_custom_target(lua51_dep 
-#	ALL
-#	COMMAND ${POWERSHELL_PATH} Copy-Item -Path "lua51.dll" -Destination ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} -Force
-#	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
-#)
-#
-#add_custom_target(lua51_dep1
-#	ALL
-#	COMMAND ${POWERSHELL_PATH} Copy-Item -Path "lua51.lib" -Destination ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} -Force
-#	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src
-#)
+    # Create a target out of the library compilation result
+    add_custom_target(${ARGS_TARGET}_target DEPENDS "${ARGS_OUTPUT_DIRECTORY}/${ARGS_TARGET}.dll")
 
-#add_custom_target(luajit_target ALL
-#    DEPENDS ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/luajit.lib ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua51.lib ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua51.dll
-#)
-#add_dependencies(luajit_target project_luajit)
+    add_custom_command(
+        TARGET ${ARGS_TARGET}_target POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+                ${ARGS_OUTPUT_DIRECTORY}/${ARGS_TARGET}.dll
+                ${OUT}/${ARGS_TARGET}.dll)
 
-#add_library(lua51 STATIC IMPORTED)
-#set_property(TARGET lua51 PROPERTY IMPORTED_LOCATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lua51.lib)
-#add_dependencies(lua51 luajit_target)
-#target_include_directories(lua51 INTERFACE ${CMAKE_CURRENT_LIST_DIR}/src)
+    # Create an library target out of the library compilation result
+    add_library(${ARGS_TARGET} SHARED IMPORTED GLOBAL)
+    add_dependencies(${ARGS_TARGET} ${ARGS_TARGET}_target)
 
-add_library(luajit STATIC IMPORTED)
-set_property(TARGET luajit PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/luajit.lib)
-add_dependencies(luajit project_luajit)
-target_include_directories(luajit INTERFACE ${CMAKE_CURRENT_LIST_DIR}/src)
+    # Specify where the library is and where to find the headers
+    set_target_properties(${ARGS_TARGET}
+        PROPERTIES
+        IMPORTED_LOCATION "${ARGS_OUTPUT_DIRECTORY}/${ARGS_TARGET}.dll"
+        IMPORTED_IMPLIB "${ARGS_OUTPUT_DIRECTORY}/${ARGS_TARGET}.lib"
+        INTERFACE_INCLUDE_DIRECTORIES "${ARGS_INCLUDE_DIRS}")
+endfunction()
+
+add_external_library(TARGET lua51
+    COMMAND           .\\msvcbuild.bat ${BUILD_TYPE}
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src"
+    OUTPUT_DIRECTORY  "${CMAKE_CURRENT_SOURCE_DIR}/src"
+    INCLUDE_DIRS      "${CMAKE_CURRENT_SOURCE_DIR}/src"
+    COMMENT           "Building YourLib")
