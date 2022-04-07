@@ -43,7 +43,7 @@ function(add_external_library)
         INTERFACE_INCLUDE_DIRECTORIES "${ARGS_INCLUDE_DIRS}")
 endfunction()
 
-add_external_library(TARGET luajit
+add_external_library(TARGET lua51
     COMMAND           .\\msvcbuild.bat ${BUILD_TYPE}
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src"
     OUTPUT_DIRECTORY  "${CMAKE_CURRENT_SOURCE_DIR}/src"
